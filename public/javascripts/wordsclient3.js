@@ -5,7 +5,7 @@ window.addEventListener("load", function () {
             var searchField = document.getElementById("searchWord");
             var searchList = document.getElementById("wordlist");
 
-
+// function to populate options
 
             searchField.addEventListener("keyup", function (evt) {
                 
@@ -33,7 +33,7 @@ window.addEventListener("load", function () {
                 var params = []; // Empty array for optional URI parameters
                 
                 var thresh = searchField.dataset.threshold;
-                if (thresh && Number(thresh) > 0) {
+                if (thresh && Number(thresh) > 4) {
                     params.push("threshold=" + Number(thresh)); //Add to array
                 }
                 
@@ -51,5 +51,217 @@ window.addEventListener("load", function () {
                 xhr.send();
                 
             }); //Word search keyup callback
+    
+    
+    
+    
+    // function call GET by id route onclick
+    
+    
+    
+    
+    
+    searchField.addEventListener("click", function (evt) {
+                
+                console.log(evt);
+               
+                searchField.value = searchList.options[searchList.selectedIndex].label;
+        
+        
+                
+        
+        
+                var wordId = searchList.options[searchList.selectedIndex].value;
+        
+                console.log(wordId);
+        
+                var abbrev = searchWord.value;
+                var xhr = new XMLHttpRequest();
+
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState == 4 && xhr.status == 200) {
+                        
+                        
+                        
+                        var h2 = document.createElement("h2");
+                        
+                 
+                        h2.setAttribute("id", "h2")
+                        
+                        
+                        
+                        
+                        var myResponse = xhr.response;
+                        
+                        console.log(myResponse);
+                        
+                        
+                        var id = myResponse[0].id;
+                        var word = myResponse[0].word;
+                        
+                      
+                        
+                        console.log(id); 
+                                      
+                        console.log(word);
+                        
+                        //h2 = document.getElementById("h2");
+                        
+                        console.log(h2);
+                        
+                        h2.innerHTML =  "  Id: " + id + "  Word: " + word +  " ";
+                       
+                        
+                        //document.body.appendChild(h2);
+                        
+                        document.body.insertBefore(h2,document.getElementById("wordsearch"));
+                        
+                        
+                    }
+                }
+
+
+
+                var uri = "/wordsapi/v3/dictionary/" + wordId;
+                
+               
+                var thresh = searchField.dataset.threshold;
+                if (thresh && Number(thresh) > 4) {
+                    params.push("threshold=" + Number(thresh)); //Add to array
+                }
+                
+                var caseSens = document.getElementById("caseSearch").checked;
+                if (caseSens) {
+                    params.push("caseSensitive=true"); //Add to array
+                }
+                
+                
+                xhr.open("GET", uri);
+                xhr.responseType = 'json';
+                xhr.send();
+                
+            }); //Id search keyup callback
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    // function call DELETE by id route onclick
+    
+    
+    
+    
+    
+  /*  searchField.addEventListener("click", function (evt) {
+                
+                console.log(evt);
+               
+                searchField.value = searchList.options[searchList.selectedIndex].label;
+        
+        
+                
+        
+        
+                var wordId = searchList.options[searchList.selectedIndex].value;
+        
+                console.log(wordId);
+        
+                var abbrev = searchWord.value;
+                var xhr = new XMLHttpRequest();
+
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState == 4 && xhr.status == 200) {
+                        
+                        
+                        
+                        var h2 = document.getElementById("h2");
+                        
+                        console.log(h2);
+                        
+                        
+                        var myResponse = xhr.response;
+                        
+                        console.log(myResponse);
+                        
+                        
+                        var id = myResponse[0].id;
+                        var word = myResponse[0].word;
+                        
+                        
+                        console.log(id); 
+                                      
+                        console.log(word);
+                        
+                        
+                        h2.innerHTML +=  "  Id: " + id + "  Word: " + word +  " ";
+                       
+                        
+                      
+                        
+                        
+                        
+                        
+                    }
+                }
+
+
+
+                var uri = "/wordsapi/v3/dictionary/" + wordId;
+                
+               
+                var thresh = searchField.dataset.threshold;
+                if (thresh && Number(thresh) > 4) {
+                    params.push("threshold=" + Number(thresh)); //Add to array
+                }
+                
+                var caseSens = document.getElementById("caseSearch").checked;
+                if (caseSens) {
+                    params.push("caseSensitive=true"); //Add to array
+                }
+                
+                
+                xhr.open("GET", uri);
+                xhr.responseType = 'json';
+                xhr.send();
+                
+            }); //Id delete keyup callback
+    */
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    // function to grab word from option and display in choose text field
+    
+    
+    searchList.addEventListener("change", function () {
+        searchField.value = searchList.options[searchList.selectedIndex].label;
+    });
+
+    
+    
     
     }); // end of event listener
