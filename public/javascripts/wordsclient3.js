@@ -121,9 +121,11 @@ window.addEventListener("load", function () {
                     h2.innerHTML = "  Id: " + id + "  Word: " + word + " ";
 
 
-                    //document.body.appendChild(h2);
+                    var myHeader = document.getElementById("header");
+                    
+                    myHeader.appendChild(h2);
 
-                    document.body.insertBefore(h2, document.getElementById("wordsearch"));
+                    //document.body.insertBefore(h2, document.getElementById("wordsearch"));
 
 
                     var deleteButton = document.createElement("button");
@@ -135,9 +137,9 @@ window.addEventListener("load", function () {
 
                     //document.body.appendChild(deleteButton);
 
-                    document.body.insertBefore(deleteButton, document.getElementById("wordsearch"));
+                    //document.body.insertBefore(deleteButton, document.getElementById("wordsearch"));
 
-
+                    myHeader.appendChild(deleteButton);
 
                     deleteButton.addEventListener("click", deleteFunction); //add onclick for delete
 
@@ -154,9 +156,9 @@ window.addEventListener("load", function () {
 
                     //document.body.appendChild(deleteButton);
 
-                    document.body.insertBefore(updateButton, document.getElementById("wordsearch"));
+                    //document.body.insertBefore(updateButton, document.getElementById("wordsearch"));
 
-
+                    myHeader.appendChild(updateButton);
 
                     updateButton.addEventListener("click", updateFunction); //add onclick for update
 
@@ -171,9 +173,9 @@ window.addEventListener("load", function () {
 
                     //document.body.appendChild(deleteButton);
 
-                    document.body.insertBefore(createButton, document.getElementById("wordsearch"));
+                    //document.body.insertBefore(createButton, document.getElementById("wordsearch"));
 
-
+                    myHeader.appendChild(createButton);
 
                     createButton.addEventListener("click", createFunction); //add onclick for update
 
@@ -188,9 +190,10 @@ window.addEventListener("load", function () {
 
                     //document.body.appendChild(deleteButton);
 
-                    document.body.insertBefore(homeButton, document.getElementById("wordsearch"));
+                    //document.body.insertBefore(homeButton, document.getElementById("wordsearch"));
 
-
+                                        
+                    myHeader.appendChild(homeButton);
 
                     homeButton.addEventListener("click", clearButtonsFunction); //add onclick for update
 
