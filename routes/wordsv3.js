@@ -1,3 +1,7 @@
+
+
+
+
 var express = require('express');
 var router = express.Router();
 var sqlite3 = require('sqlite3');
@@ -63,7 +67,7 @@ var wordId = req.params.wordId;
 
 
 // Use our query clause:
-var query = ("DELETE FROM words WHERE id=" + wordId + " ");
+var query = ("DELETE FROM words WHERE id=" + wordId);
 
 
 
@@ -73,12 +77,15 @@ var responseObject = {
 };
 
 
+  console.log(responseObject);  
+    
+    
 db.run(query, function (err) {
 
     if (err) {
         res.status(500).send("Database Error")
     } else {
-        res.status(202).send(responseObject)
+        res.status(200).json(responseObject)
     }
 
 
@@ -86,7 +93,92 @@ db.run(query, function (err) {
 
 
 });
+//});
+
+
+// PUT -----------------------------------------------------------------update by word id in dictionary
+
+
+router.put('/dictionary/:wordId', function (req, res, next) {
+
+var wordId = req.params.wordId;
+    
+var word = req.body.word;    
+    
+console.log(req.body);
+    
+    
+// Use our query clause:
+var query = ("UPDATE words SET  word='"+ word +  "' WHERE id=" + wordId);
+
+
+
+var responseObject = {
+    "id": wordId,
+    "confirmation": "Word was updated"
+};
+
+
+  console.log(responseObject);  
+    
+    
+db.run(query, function (err) {
+
+    if (err) {
+        res.status(500).send("Database Error")
+    } else {
+        res.status(200).json(responseObject)
+    }
+
+
+})
+
+
 });
+//});
+
+
+
+// POST -----------------------------------------------------------------update by word id in dictionary
+
+
+router.post('/dictionary/', function (req, res, next) {
+
+//var wordId = req.params.wordId;
+    
+var word = req.body.word;    
+    
+console.log(req.body);
+    
+    
+// Use our query clause:
+var query = ("INSERT INTO words SET (word) VALUES('" + word + "')");
+
+
+
+var responseObject = {
+    "id": wordId,
+    "confirmation": "Word was created"
+};
+
+
+  console.log(responseObject);  
+    
+    
+db.run(query, function (err) {
+
+    if (err) {
+        res.status(500).send("Database Error")
+    } else {
+        res.status(200).json(responseObject)
+    }
+
+
+})
+
+
+});
+//});
 
 
 
