@@ -68,7 +68,15 @@ window.addEventListener("load", function () {
 
         console.log(evt.keyCode);
 
+
+
+
+
+
         if (evt.keyCode === 13) {
+
+
+
 
 
             searchField.value = searchList.options[searchList.selectedIndex].label;
@@ -92,6 +100,9 @@ window.addEventListener("load", function () {
 
 
 
+
+
+
                     var h2 = document.createElement("h2");
 
 
@@ -105,8 +116,13 @@ window.addEventListener("load", function () {
                     console.log(myResponse);
 
 
-                    var id = myResponse[0].id;
-                    var word = myResponse[0].word;
+                    var forDisplay = myResponse.twitter; //  get tweets
+
+                    showTweets(forDisplay); // call display tweets function
+
+
+                    var id = myResponse.id;
+                    var word = myResponse.word;
 
 
 
@@ -122,7 +138,7 @@ window.addEventListener("load", function () {
 
 
                     var myHeader = document.getElementById("header");
-                    
+
                     myHeader.appendChild(h2);
 
                     //document.body.insertBefore(h2, document.getElementById("wordsearch"));
@@ -192,7 +208,7 @@ window.addEventListener("load", function () {
 
                     //document.body.insertBefore(homeButton, document.getElementById("wordsearch"));
 
-                                        
+
                     myHeader.appendChild(homeButton);
 
                     homeButton.addEventListener("click", clearButtonsFunction); //add onclick for update
@@ -569,6 +585,10 @@ window.addEventListener("load", function () {
         var searchList = document.getElementById("wordlist");
         searchList.innerHTML = "  ";
 
+        var twitterList = document.getElementById("twitterlist");
+
+        twitterList.innerHTML = "";
+
     };
 
 
@@ -582,6 +602,63 @@ window.addEventListener("load", function () {
     searchList.addEventListener("change", function () {
         searchField.value = searchList.options[searchList.selectedIndex].label;
     });
+
+
+
+    var showTweets = function (tweets) {
+
+
+        var allTweets = tweets.statuses;
+
+        var twitterlist = document.getElementById("twitterlist");
+
+        //twitterlist.innerHTML = "";
+
+        for (var i = 0; i < allTweets.length; i++) {
+
+            var tweet = " ";
+
+            tweet = allTweets[i].text;
+
+
+            console.log(tweet);
+
+            var tweetDiv = document.createElement("div");
+
+
+
+            tweetDiv.setAttribute("class", "tweetDiv");
+
+            tweet = linkURLs(tweet);
+            tweet = linkHashtags(tweet)
+
+
+
+
+            tweetDiv.innerHTML = tweet;
+
+
+            //twitterlist.innerHTML += allTweets[i].text + "<br> ";
+            twitterlist.appendChild(tweetDiv);
+
+        }
+
+
+
+    };
+
+
+    var linkURLs = function (text) {
+        var pattern = /(https?:\/\/\S+)/g;
+        var newText = text.replace(pattern, "<a href='$1' target='_blank'>$1</a>")
+        return newText;
+    }
+    var linkHashtags = function (text) {
+        var pattern = /(#(\w+))/g;
+        var newText = text.replace(pattern, "<a href='https://twitter.com/search?q=%23$2' target='_blank'>$1</a>")
+        return newText;
+    }
+
 
 
 

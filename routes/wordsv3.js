@@ -4,6 +4,40 @@ var sqlite3 = require('sqlite3');
 var db = new sqlite3.Database('databases/words.sqlite');
 db.run("PRAGMA case_sensitive_like = true");
 
+
+var Twitter = require("twitter");
+
+var twitParams = {
+    screen_name: "markche"
+    
+};
+
+
+var twitClient = new Twitter ( {
+    
+    
+    
+    
+    
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 router.get('/search/:abbrev', function (req, res, next) {
     var abbrev = req.params.abbrev;
     var threshold = req.query.threshold || 3;
@@ -40,19 +74,85 @@ router.get('/search/:abbrev', function (req, res, next) {
 router.get('/dictionary/:wordId', function (req, res, next) {
     var wordId = req.params.wordId;
 
-
+console.log(" in first get route");
     // Use our query clause:
     var query = ("SELECT * FROM words WHERE id=" + wordId + " ");
 
-    db.all(query, function (err, data) {
+    db.get(query, function (err, data) {
 
         if (err) {
             res.status(500).send("Database Error");
         } else {
-            res.status(200).json(data);
+            //res.status(200).json(data);
+            res.wordData = data;
+            next();
         }
     });
 });
+
+
+
+//  get twitter
+
+router.get('/dictionary/:wordId', function (req, res, next) {
+    
+    console.log(" in twitter router");
+    
+    var word = res.wordData.word;
+    
+    res.wordData.twitter = {};
+    
+    var twitSearch = "https://api.twitter.com/1.1/search/tweets.json?";
+    
+    twitSearch += "q=";
+    twitSearch += "lang%3Aen%20";
+    twitSearch += "%23" + word;
+    twitSearch += "&result_type=recent";
+    
+    
+    console.log(twitSearch ); 
+    
+    twitClient.get(twitSearch, twitParams, function(error, tweets, response){
+        
+        if(error)  {
+            
+             console.log(" in twitter error"); 
+              console.log(error);
+            
+            
+        }     
+        else {
+           
+          console.log(" in twitter success");       
+            
+          console.log(" my tweets"  + tweets);  
+            
+          res.wordData.twitter = tweets;  
+            
+            
+        }
+        
+        res.status(200).json(res.wordData);
+        
+    })
+                  
+                  
+    
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 // DELETE -----------------------------------------------------------------delete by word id in dictionary
