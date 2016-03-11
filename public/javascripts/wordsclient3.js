@@ -61,123 +61,142 @@ window.addEventListener("load", function () {
 
 
 
-    searchField.addEventListener("click", function (evt) {
+    searchField.addEventListener("keydown", function (evt) {
 
         console.log(evt);
 
-        searchField.value = searchList.options[searchList.selectedIndex].label;
 
+        console.log(evt.keyCode);
 
+        if (evt.keyCode === 13) {
 
 
+            searchField.value = searchList.options[searchList.selectedIndex].label;
 
-        var wordId = searchList.options[searchList.selectedIndex].value;
 
 
-        currentId = wordId;
 
-        console.log(wordId);
 
-        var abbrev = searchWord.value;
-        var xhr = new XMLHttpRequest();
+            var wordId = searchList.options[searchList.selectedIndex].value;
 
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState == 4 && xhr.status == 200) {
 
+            currentId = wordId;
 
+            console.log(wordId);
 
-                var h2 = document.createElement("h2");
+            var abbrev = searchWord.value;
+            var xhr = new XMLHttpRequest();
 
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
 
-                h2.setAttribute("id", "h2")
 
 
+                    var h2 = document.createElement("h2");
 
 
-                var myResponse = xhr.response;
+                    h2.setAttribute("id", "h2")
 
-                console.log(myResponse);
 
 
-                var id = myResponse[0].id;
-                var word = myResponse[0].word;
 
+                    var myResponse = xhr.response;
 
+                    console.log(myResponse);
 
-                console.log(id);
 
-                console.log(word);
+                    var id = myResponse[0].id;
+                    var word = myResponse[0].word;
 
-                //h2 = document.getElementById("h2");
 
-                console.log(h2);
 
-                h2.innerHTML = "  Id: " + id + "  Word: " + word + " ";
+                    console.log(id);
 
+                    console.log(word);
 
-                //document.body.appendChild(h2);
+                    //h2 = document.getElementById("h2");
 
-                document.body.insertBefore(h2, document.getElementById("wordsearch"));
+                    console.log(h2);
 
+                    h2.innerHTML = "  Id: " + id + "  Word: " + word + " ";
 
-                var deleteButton = document.createElement("button");
 
+                    //document.body.appendChild(h2);
 
-                deleteButton.setAttribute("id", "deleteButton");
+                    document.body.insertBefore(h2, document.getElementById("wordsearch"));
 
-                deleteButton.innerHTML = " Delete word";
 
-                //document.body.appendChild(deleteButton);
+                    var deleteButton = document.createElement("button");
 
-                document.body.insertBefore(deleteButton, document.getElementById("wordsearch"));
 
+                    deleteButton.setAttribute("id", "deleteButton");
 
+                    deleteButton.innerHTML = " Delete word";
 
-                deleteButton.addEventListener("click", deleteFunction); //add onclick for delete
+                    //document.body.appendChild(deleteButton);
 
+                    document.body.insertBefore(deleteButton, document.getElementById("wordsearch"));
 
 
 
+                    deleteButton.addEventListener("click", deleteFunction); //add onclick for delete
 
-                var updateButton = document.createElement("button");
 
 
-                updateButton.setAttribute("id", "updateButton");
 
-                updateButton.innerHTML = " Update word";
 
-                //document.body.appendChild(deleteButton);
+                    var updateButton = document.createElement("button");
 
-                document.body.insertBefore(updateButton, document.getElementById("wordsearch"));
 
+                    updateButton.setAttribute("id", "updateButton");
 
+                    updateButton.innerHTML = " Update word";
 
-                updateButton.addEventListener("click", updateFunction); //add onclick for update
+                    //document.body.appendChild(deleteButton);
 
+                    document.body.insertBefore(updateButton, document.getElementById("wordsearch"));
 
 
-                var createButton = document.createElement("button");
 
+                    updateButton.addEventListener("click", updateFunction); //add onclick for update
 
-                createButton.setAttribute("id", "createButton");
 
-                createButton.innerHTML = " Create word";
 
-                //document.body.appendChild(deleteButton);
+                    var createButton = document.createElement("button");
 
-                document.body.insertBefore(createButton, document.getElementById("wordsearch"));
 
+                    createButton.setAttribute("id", "createButton");
 
+                    createButton.innerHTML = " Create word";
 
-                createButton.addEventListener("click", createFunction); //add onclick for update
+                    //document.body.appendChild(deleteButton);
 
+                    document.body.insertBefore(createButton, document.getElementById("wordsearch"));
 
 
 
+                    createButton.addEventListener("click", createFunction); //add onclick for update
 
 
 
+                    var homeButton = document.createElement("button");
 
+
+                    homeButton.setAttribute("id", "homeButton");
+
+                    homeButton.innerHTML = " Go home";
+
+                    //document.body.appendChild(deleteButton);
+
+                    document.body.insertBefore(homeButton, document.getElementById("wordsearch"));
+
+
+
+                    homeButton.addEventListener("click", clearButtonsFunction); //add onclick for update
+
+
+
+                }
 
             }
         }
@@ -185,18 +204,6 @@ window.addEventListener("load", function () {
 
 
         var uri = "/wordsapi/v3/dictionary/" + wordId;
-
-
-        /* var thresh = searchField.dataset.threshold;
-        if (thresh && Number(thresh) > 4) {
-            params.push("threshold=" + Number(thresh)); //Add to array
-        }
-
-        var caseSens = document.getElementById("caseSearch").checked;
-        if (caseSens) {
-            params.push("caseSensitive=true"); //Add to array
-        }
-*/
 
         xhr.open("GET", uri);
         xhr.responseType = 'json';
@@ -222,9 +229,11 @@ window.addEventListener("load", function () {
 
         console.log(evt);
 
-        searchField.value = searchList.options[searchList.selectedIndex].label;
+        //searchField.value = searchList.options[searchList.selectedIndex].label;
 
-        var wordId = searchList.options[searchList.selectedIndex].value;
+        // var wordId = searchList.options[searchList.selectedIndex].value;
+
+        var wordId = currentId;
 
         console.log(wordId);
 
@@ -259,8 +268,6 @@ window.addEventListener("load", function () {
 
 
                 h2.innerHTML = "  Id: " + id + "  Word: " + confirmation + " ";
-
-
 
 
 
@@ -387,7 +394,7 @@ window.addEventListener("load", function () {
 
 
 
- // function call POST  route onclick
+    // function call POST  route onclick
 
 
 
@@ -407,7 +414,7 @@ window.addEventListener("load", function () {
 
 
         var newWordObject = {
-            
+
             "word": newword
         };
 
@@ -440,6 +447,8 @@ window.addEventListener("load", function () {
                 var id = myResponse.id;
                 var confirmation = myResponse.confirmation;
 
+                currentId = id;
+
 
                 console.log(id);
 
@@ -447,13 +456,30 @@ window.addEventListener("load", function () {
 
                 h2.innerHTML = "  Id: " + id + "  Word: " + confirmation + " ";
 
+            }
 
 
+            if (xhr.readyState == 4 && xhr.status == 400) {
 
 
+                var h2 = document.getElementById("h2");
+
+                var myResponse = xhr.response;
+
+
+                h2.innerHTML = myResponse;
 
 
             }
+
+
+
+
+
+
+
+
+
         }
 
 
@@ -483,7 +509,66 @@ window.addEventListener("load", function () {
 
 
 
-    var clearButtonsFunction = function () {};
+
+
+
+    var clearButtonsFunction = function () {
+
+        console.log("in clear button function");
+
+        if (document.getElementById("deleteButton")) {
+
+            var myButton = document.getElementById("deleteButton");
+
+            console.log(myButton);
+
+            myButton.parentNode.removeChild(myButton);
+
+        }
+
+        if (document.getElementById("updateButton")) {
+
+            var myButton = document.getElementById("updateButton");
+
+            console.log(myButton);
+
+            myButton.parentNode.removeChild(myButton);
+
+        }
+
+
+        if (document.getElementById("createButton")) {
+
+            var myButton = document.getElementById("createButton");
+
+            console.log(myButton);
+
+            myButton.parentNode.removeChild(myButton);
+
+        }
+
+        if (document.getElementById("homeButton")) {
+
+            var myButton = document.getElementById("homeButton");
+
+            console.log(myButton);
+
+            myButton.parentNode.removeChild(myButton);
+
+        }
+
+
+        // clear  search and header
+        searchField.value = " ";
+        //searchList.options = " ";
+        var h2 = document.getElementById("h2");
+        h2.innerHTML = "  ";
+        var searchList = document.getElementById("wordlist");
+        searchList.innerHTML = "  ";
+
+    };
+
+
 
 
 

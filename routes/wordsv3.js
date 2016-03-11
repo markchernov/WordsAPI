@@ -69,7 +69,7 @@ var query = ("DELETE FROM words WHERE id=" + wordId);
 
 var responseObject = {
     "id": wordId,
-    "confirmation": "Word was deleted"
+    "confirmation": "was deleted"
 };
 
 
@@ -111,7 +111,7 @@ var query = ("UPDATE words SET  word='"+ word +  "' WHERE id=" + wordId);
 
 var responseObject = {
     "id": wordId,
-    "confirmation": "Word was updated"
+    "confirmation": "was updated"
 };
 
 
@@ -154,7 +154,7 @@ var query = "INSERT INTO words(word) VALUES('" +word+ "')";
 
 var responseObject = {
     "id" : " ",
-    "confirmation": "Word was created"
+    "confirmation": " was created"
 };
 
 
@@ -164,10 +164,30 @@ console.log(responseObject);
 db.run(query, function (err) {
 
     if (err) {
-        res.status(500).send("Database Error")
+        
+        if(err.errno === 19) {
+        
+           
+            res.status(400).send("Word already exist Error")
+            
+            }
+            
+        else {
+            
+            res.status(500).send("Database Error")
+        
+        }
+        
+        
+        
+        
     } else {
         
         responseObject.id = this.lastID;
+        
+        var newUrl = req.baseUrl + "/dictionary/"+ responseObject.id;
+        
+        res.set("Location", newUrl)
         
         console.log(this.lastID);
         
