@@ -1,6 +1,6 @@
 window.addEventListener("load", function () {
 
-
+    var currentId = 0;
 
     var searchField = document.getElementById("searchWord");
     var searchList = document.getElementById("wordlist");
@@ -73,6 +73,9 @@ window.addEventListener("load", function () {
 
         var wordId = searchList.options[searchList.selectedIndex].value;
 
+
+        currentId = wordId;
+
         console.log(wordId);
 
         var abbrev = searchWord.value;
@@ -131,11 +134,11 @@ window.addEventListener("load", function () {
 
 
                 deleteButton.addEventListener("click", deleteFunction); //add onclick for delete
-                
-                
-                
-                
-                
+
+
+
+
+
                 var updateButton = document.createElement("button");
 
 
@@ -151,8 +154,8 @@ window.addEventListener("load", function () {
 
                 updateButton.addEventListener("click", updateFunction); //add onclick for update
 
-                
-                
+
+
                 var createButton = document.createElement("button");
 
 
@@ -166,16 +169,15 @@ window.addEventListener("load", function () {
 
 
 
-                updateButton.addEventListener("click", createFunction); //add onclick for update
+                createButton.addEventListener("click", createFunction); //add onclick for update
 
-                
-                
-                
-                
-                
-                
-                
-                
+
+
+
+
+
+
+
 
             }
         }
@@ -185,7 +187,7 @@ window.addEventListener("load", function () {
         var uri = "/wordsapi/v3/dictionary/" + wordId;
 
 
-       /* var thresh = searchField.dataset.threshold;
+        /* var thresh = searchField.dataset.threshold;
         if (thresh && Number(thresh) > 4) {
             params.push("threshold=" + Number(thresh)); //Add to array
         }
@@ -292,43 +294,43 @@ window.addEventListener("load", function () {
 
 
 
-    
+
     // function call PUT by id route onclick
-    
-    
-    
+
+
+
     var updateFunction = function (evt) {
 
         console.log(evt);
 
-        
 
-        var wordId = 14445;
+
+        var wordId = currentId; //  global variable for selected word
 
         console.log(wordId);
-        
-        
-
         var newword = searchField.value;
-        
-        
+
+
         console.log(newword);
-        
-        
+
+
         var xhr = new XMLHttpRequest();
-        
-        
-        
-        
-        var newWordObject = {"id" : wordId , "word" : newword};
-        
-        
+
+
+
+
+        var newWordObject = {
+            "id": wordId,
+            "word": newword
+        };
+
+
         var jsonString = JSON.stringify(newWordObject);
-        
+
         console.log("This is my JSON String" + jsonString);
-        
-       
-       
+
+
+
 
         xhr.onreadystatechange = function () {
             if (xhr.readyState == 4 && xhr.status == 200) {
@@ -373,64 +375,49 @@ window.addEventListener("load", function () {
         var uri = "/wordsapi/v3/dictionary/" + wordId;
 
 
-        /*var thresh = searchField.dataset.threshold;
-        if (thresh && Number(thresh) > 4) {
-            params.push("threshold=" + Number(thresh)); //Add to array
-        }
-
-        var caseSens = document.getElementById("caseSearch").checked;
-        if (caseSens) {
-            params.push("caseSensitive=true"); //Add to array
-        }
-*/
 
         xhr.open("PUT", uri);
         xhr.responseType = 'json';
-        
+
         xhr.setRequestHeader("Content-type", "application/json");
         xhr.send(jsonString);
 
     }; //Id put keyup callback
 
-    
-    
-    
-    
-    
-    
-    
+
+
+
+ // function call POST  route onclick
+
+
+
     var createFunction = function (evt) {
 
         console.log(evt);
 
-        
 
-        var wordId = 14445;
-
-        console.log(wordId);
-        
-        
 
         var newword = searchField.value;
-        
-        
+
+
         console.log(newword);
-        
-        
+
+
         var xhr = new XMLHttpRequest();
-        
-        
-        
-        
-        var newWordObject = {"id" : wordId , "word" : newword};
-        
-        
+
+
+        var newWordObject = {
+            
+            "word": newword
+        };
+
+
         var jsonString = JSON.stringify(newWordObject);
-        
-        console.log("This is my JSON String" + jsonString);
-        
-       
-       
+
+        console.log("In Create - This is my JSON String" + jsonString);
+
+
+
 
         xhr.onreadystatechange = function () {
             if (xhr.readyState == 4 && xhr.status == 200) {
@@ -458,7 +445,6 @@ window.addEventListener("load", function () {
 
                 console.log(confirmation);
 
-
                 h2.innerHTML = "  Id: " + id + "  Word: " + confirmation + " ";
 
 
@@ -472,48 +458,22 @@ window.addEventListener("load", function () {
 
 
 
-        var uri = "/wordsapi/v3/dictionary/" + wordId;
+        var uri = "/wordsapi/v3/dictionary/";
 
 
-        /*var thresh = searchField.dataset.threshold;
-        if (thresh && Number(thresh) > 4) {
-            params.push("threshold=" + Number(thresh)); //Add to array
-        }
 
-        var caseSens = document.getElementById("caseSearch").checked;
-        if (caseSens) {
-            params.push("caseSensitive=true"); //Add to array
-        }
-*/
-
-        xhr.open("PUT", uri);
+        xhr.open("POST", uri);
         xhr.responseType = 'json';
-        
+
         xhr.setRequestHeader("Content-type", "application/json");
         xhr.send(jsonString);
 
     }; //Id delete keyup callback
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
+
+
+
+
 
 
 
@@ -523,7 +483,7 @@ window.addEventListener("load", function () {
 
 
 
-    var clearButtonsFunction = function() {};
+    var clearButtonsFunction = function () {};
 
 
 

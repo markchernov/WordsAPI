@@ -1,7 +1,3 @@
-
-
-
-
 var express = require('express');
 var router = express.Router();
 var sqlite3 = require('sqlite3');
@@ -93,7 +89,7 @@ db.run(query, function (err) {
 
 
 });
-//});
+
 
 
 // PUT -----------------------------------------------------------------update by word id in dictionary
@@ -135,11 +131,11 @@ db.run(query, function (err) {
 
 
 });
-//});
 
 
 
 // POST -----------------------------------------------------------------update by word id in dictionary
+
 
 
 router.post('/dictionary/', function (req, res, next) {
@@ -148,21 +144,21 @@ router.post('/dictionary/', function (req, res, next) {
     
 var word = req.body.word;    
     
-console.log(req.body);
+console.log("In post method with word:  " + word);
     
     
 // Use our query clause:
-var query = ("INSERT INTO words SET (word) VALUES('" + word + "')");
+var query = "INSERT INTO words(word) VALUES('" +word+ "')";
 
 
 
 var responseObject = {
-    "id": wordId,
+    "id" : " ",
     "confirmation": "Word was created"
 };
 
 
-  console.log(responseObject);  
+console.log(responseObject);  
     
     
 db.run(query, function (err) {
@@ -170,15 +166,22 @@ db.run(query, function (err) {
     if (err) {
         res.status(500).send("Database Error")
     } else {
+        
+        responseObject.id = this.lastID;
+        
+        console.log(this.lastID);
+        
+        console.log("Updated response object with incremented id" + responseObject.id);
         res.status(200).json(responseObject)
     }
 
 
-})
+});
 
 
 });
-//});
+
+
 
 
 
