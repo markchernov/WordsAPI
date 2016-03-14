@@ -7,32 +7,9 @@ db.run("PRAGMA case_sensitive_like = true");
 
 var Twitter = require("twitter");
 
-var twitParams = {
-    screen_name: "markche"
-    
-};
-
-
-var twitClient = new Twitter ( {
-    
-    
-    
-    
-    
-});
-
-
-
-
-
-
-
-
-
-
-
-
-
+var credentials = require("../.credentials.js");
+var twitParams = credentials.twitParams;
+var twitClient = new Twitter(credentials.twitCredentials);
 
 
 
